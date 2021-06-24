@@ -20,6 +20,7 @@
 		F4D499E426839642003155EF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D499E326839642003155EF /* TableViewController.swift */; };
 		F4D499E72683C9EC003155EF /* RepoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D499E52683C9EC003155EF /* RepoTableViewCell.swift */; };
 		F4D499E82683C9EC003155EF /* RepoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4D499E62683C9EC003155EF /* RepoTableViewCell.xib */; };
+		F4D607D42683E7F500697B17 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D607D32683E7F500697B17 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		F4D499E326839642003155EF /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		F4D499E52683C9EC003155EF /* RepoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoTableViewCell.swift; sourceTree = "<group>"; };
 		F4D499E62683C9EC003155EF /* RepoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RepoTableViewCell.xib; sourceTree = "<group>"; };
+		F4D607D32683E7F500697B17 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				F4D499E326839642003155EF /* TableViewController.swift */,
 				F4D499E52683C9EC003155EF /* RepoTableViewCell.swift */,
 				F4D499E62683C9EC003155EF /* RepoTableViewCell.xib */,
+				F4D607D32683E7F500697B17 /* DetailViewController.swift */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				F4D499B026838B4B003155EF /* AppDelegate.swift in Sources */,
 				F4D499B226838B4B003155EF /* SceneDelegate.swift in Sources */,
 				F4D499E026838F5B003155EF /* repository.swift in Sources */,
+				F4D607D42683E7F500697B17 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -47,13 +47,15 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
     UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RepoTableViewCell",
-                                                 for: indexPath) as! RepoTableViewCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "RepoTableViewCell",
+//                                                 for: indexPath) as! RepoTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RepoTableViewCell
         let repo = dataSource[indexPath.row]
         
         cell.titleLabel?.text = repo.fullName
         cell.descLabel?.text = repo.description
         cell.modifyLabel?.text = repo.updated
+        cell.starsLabel?.text = String(repo.stars)
         guard let avatarUrl = repo.owner?.avatarUrl else { return cell }
             cell.avatarImageView?.downloaded(from:avatarUrl)
         
@@ -65,6 +67,24 @@ class TableViewController: UITableViewController {
     }
     
     //----TableView-End
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let index = tableView.indexPathForSelectedRow
+        guard let row = index?.row else {return}
+        let repo = dataSource[row]
+        let destVC = segue.destination as! DetailViewController
+        destVC.url = repo.htmlUrl
+    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+//
+//        // Create a variable that you want to send
+//        var newProgramVar = Program(category: "Some", name: "Text")
+//
+//        // Create a new variable to store the instance of PlayerTableViewController
+//        let destinationVC = segue.destinationViewController as PlayerTableViewController
+//        destinationVC.programVar = newProgramVar
+//        }
+//    }
 }
 
 extension TableViewController : UISearchBarDelegate {

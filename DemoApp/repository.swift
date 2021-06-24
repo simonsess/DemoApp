@@ -11,8 +11,9 @@ struct repository: Decodable {
     var fullName: String?
     var description: String?
     var updated: String? //"2021-06-20T11:20:22Z"
-    var stars: Int?
+    var stars: Int
     var owner: owner?
+    var htmlUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case fullName = "full_name"
@@ -20,6 +21,7 @@ struct repository: Decodable {
         case updated = "updated_at"
         case stars = "stargazers_count"
         case owner = "owner"
+        case htmlUrl = "html_url"
     }
 }
 

@@ -13,6 +13,7 @@ class RepoTableViewCell: UITableViewCell {
     @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var modifyLabel: UILabel!
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var starsLabel: UILabel!
     
     
     override func awakeFromNib() {
