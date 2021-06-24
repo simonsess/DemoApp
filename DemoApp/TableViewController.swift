@@ -11,25 +11,20 @@ class TableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
+    let defaultOrg = "apple"
+    
     var dataSource = [repository]() {
         didSet {
             DispatchQueue.main.async {
-                //reload data
                 self.tableView.reloadData()
-                
             }
         }
-    }
-   // let organization = "apple"
-    
+    }    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        searchBar.text = "apple"
-        
-        let nib = UINib(nibName: "RepoTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "RepoTableViewCell")
+        searchBar.placeholder = defaultOrg
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,8 +42,6 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
     UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "RepoTableViewCell",
-//                                                 for: indexPath) as! RepoTableViewCell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RepoTableViewCell
         let repo = dataSource[indexPath.row]
         
@@ -75,21 +68,14 @@ class TableViewController: UITableViewController {
         let destVC = segue.destination as! DetailViewController
         destVC.url = repo.htmlUrl
     }
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-//
-//        // Create a variable that you want to send
-//        var newProgramVar = Program(category: "Some", name: "Text")
-//
-//        // Create a new variable to store the instance of PlayerTableViewController
-//        let destinationVC = segue.destinationViewController as PlayerTableViewController
-//        destinationVC.programVar = newProgramVar
-//        }
-//    }
 }
 
 extension TableViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let orgName = searchBar.text else {return}
+        guard var orgName = searchBar.text else {return}
+        if (orgName.isEmpty) {
+            orgName = defaultOrg
+        }
         let repoRequest = repoRequest(organisation: orgName)
         self.searchBar.resignFirstResponder()
         repoRequest.getRepos {[weak self] result in
