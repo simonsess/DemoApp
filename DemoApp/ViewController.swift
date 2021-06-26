@@ -24,7 +24,11 @@ class ViewController: UIViewController {
             case "database":
                 let destVC = segue.destination as! databaseTableViewController
                 destVC.navigationItem.title = "DataBase"
-            default:
+            case "offline":
+                let destVC = segue.destination as! TableViewController
+                destVC.navigationItem.title = "Offline"
+                destVC.isOffline = true
+        default:
                 let destVC = segue.destination
                 destVC.navigationItem.title = "default"
         }

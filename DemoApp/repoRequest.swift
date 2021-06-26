@@ -71,7 +71,7 @@ extension UIImageView {
                 else { return }
             DispatchQueue.main.async() { [weak self] in
                 self?.image = image
-                imageProvider.set(value: image, key: url.path)
+                imageProvider.set(value: image, key: url.absoluteString)
             }
         }.resume()
     }

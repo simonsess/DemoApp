@@ -18,10 +18,18 @@ class TableViewController: UITableViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var defaultSearch: String
+    var isOffline: Bool {
+        didSet {
+            self.searchBar?.searchBarStyle = isOffline ? .minimal : .default
+            self.searchBar?.isTranslucent = isOffline
+            self.searchBar?.backgroundColor = isOffline ? UIColor.lightGray : UIColor.clear
+            self.saveButton.isEnabled = !isOffline
+        }
+    }
     var searchMode: sMode = sMode.org {
         didSet {
             defaultSearch = isOrgSearch ? "apple" : "graphsearch"
-            saveButton.isEnabled = isOrgSearch
+            saveButton.isEnabled = isOrgSearch && !isOffline
         }
     }
     var isOrgSearch: Bool{
@@ -39,6 +47,9 @@ class TableViewController: UITableViewController {
         }
     }
     @IBAction func onSaveClick(_ sender: UIBarButtonItem) {
+        if (dataSource.count == 0) {
+            return
+        }
         imageProvider.save()
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(dataSource){
@@ -51,6 +62,7 @@ class TableViewController: UITableViewController {
     required init?(coder: NSCoder) {
         searchMode = sMode.org
         defaultSearch = "apple"
+        self.isOffline = false
         super.init(coder: coder)
     }
     
@@ -66,6 +78,11 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         searchBar.placeholder = defaultSearch
+        
+        if (isOffline) {
+            imageProvider.load()
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,7 +108,11 @@ class TableViewController: UITableViewController {
         cell.modifyLabel?.text = repo.dateModified
         cell.starsLabel?.text = String(repo.stars)
         guard let avatarUrl = repo.owner?.avatarUrl else { return cell }
+        if (isOffline) {
+            cell.avatarImageView.image = imageProvider.get(key: avatarUrl)
+        } else {
             cell.avatarImageView?.downloaded(from:avatarUrl)
+        }
         
         return cell
     }
@@ -117,14 +138,26 @@ extension TableViewController : UISearchBarDelegate {
         if (searchText.isEmpty) {
             searchText = defaultSearch
         }
-        let repoRequest = repoRequest(searchPattern: searchText, search: self.searchMode)
-        self.searchBar.resignFirstResponder()
-        repoRequest.getRepos {[weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let repos):
-                self?.dataSource = repos
+        if (isOffline){
+            //search db
+            if let data = UserDefaults.standard.value(forKey: searchText) as? Data{
+                let decoder = JSONDecoder()
+
+                if let objectsDecoded = try? decoder.decode(Array.self, from: data) as [repository] {
+                    dataSource = objectsDecoded
+                }
+            }
+            
+        } else {
+            let repoRequest = repoRequest(searchPattern: searchText, search: self.searchMode)
+            self.searchBar.resignFirstResponder()
+            repoRequest.getRepos {[weak self] result in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let repos):
+                    self?.dataSource = repos
+                }
             }
         }
     }

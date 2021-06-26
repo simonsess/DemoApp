@@ -38,10 +38,20 @@ class imageProvider {
     }
     
     static func save() {
-        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: images, requiringSecureCoding: false) as NSData
+        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: images, requiringSecureCoding: false) as Data
         else { fatalError("Can't save images.") }
         
         UserDefaults.standard.setValue(data, forKey: "images")
+    }
+    
+    static func load() {
+        if let data = UserDefaults.standard.value(forKey: "images") as? Data{
+//            guard let images = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [String: UIImage], from: data) as! [String: UIImage]
+            guard let images = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: UIImage]
+            else { fatalError("Can't load images.") }
+            
+            self.images = images
+        }
     }
 }
 
