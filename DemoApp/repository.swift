@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class imageProvider {
+    //TODO encapsulate to call online and offline images
     static var images: [String: UIImage] = [:]
     static func addData(key: String, image: UIImage) {
         

@@ -138,6 +138,7 @@ extension TableViewController : UISearchBarDelegate {
         if (searchText.isEmpty) {
             searchText = defaultSearch
         }
+        //TODO: encapsulate data provider into extra service
         if (isOffline){
             //search db
             if let data = UserDefaults.standard.value(forKey: searchText) as? Data{
