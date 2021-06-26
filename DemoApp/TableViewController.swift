@@ -15,11 +15,36 @@ enum sMode {
 class TableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var defaultSearch: String
     var searchMode: sMode = sMode.org {
         didSet {
-            defaultSearch = searchMode == sMode.org ? "apple" : "graphsearch"
+            defaultSearch = isOrgSearch ? "apple" : "graphsearch"
+            saveButton.isEnabled = isOrgSearch
+        }
+    }
+    var isOrgSearch: Bool{
+        get {
+            return searchMode == sMode.org
+        }
+    }
+    var searchText: String? {
+        get {
+            guard var searchText = searchBar.text else {return nil}
+            if (searchText.isEmpty) {
+                searchText = defaultSearch
+            }
+            return searchText
+        }
+    }
+    @IBAction func onSaveClick(_ sender: UIBarButtonItem) {
+        imageProvider.save()
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(dataSource){
+            if let key = searchText {
+                UserDefaults.standard.setValue(encoded, forKey: key)
+            }
         }
     }
     

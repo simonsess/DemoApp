@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4AE871126879849008B0CDE /* databaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE871026879849008B0CDE /* databaseTableViewController.swift */; };
 		F4D499B026838B4B003155EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D499AF26838B4B003155EF /* AppDelegate.swift */; };
 		F4D499B226838B4B003155EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D499B126838B4B003155EF /* SceneDelegate.swift */; };
 		F4D499B426838B4B003155EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D499B326838B4B003155EF /* ViewController.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F4AE871026879849008B0CDE /* databaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = databaseTableViewController.swift; sourceTree = "<group>"; };
 		F4D499AC26838B4B003155EF /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D499AF26838B4B003155EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4D499B126838B4B003155EF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				F4D499E52683C9EC003155EF /* RepoTableViewCell.swift */,
 				F4D499E62683C9EC003155EF /* RepoTableViewCell.xib */,
 				F4D607D32683E7F500697B17 /* DetailViewController.swift */,
+				F4AE871026879849008B0CDE /* databaseTableViewController.swift */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				F4D499E72683C9EC003155EF /* RepoTableViewCell.swift in Sources */,
 				F4D499B026838B4B003155EF /* AppDelegate.swift in Sources */,
 				F4D499B226838B4B003155EF /* SceneDelegate.swift in Sources */,
+				F4AE871126879849008B0CDE /* databaseTableViewController.swift in Sources */,
 				F4D499E026838F5B003155EF /* repository.swift in Sources */,
 				F4D607D42683E7F500697B17 /* DetailViewController.swift in Sources */,
 			);

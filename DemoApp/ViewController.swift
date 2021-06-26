@@ -10,17 +10,23 @@ import UIKit
 class ViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destVC = segue.destination as! TableViewController
+        
         
         switch segue.identifier {
             case "org":
+                let destVC = segue.destination as! TableViewController
                 destVC.searchMode = sMode.org
                 destVC.navigationItem.title = "Organisation"
             case "all":
+                let destVC = segue.destination as! TableViewController
                 destVC.searchMode = sMode.all
                 destVC.navigationItem.title = "All Repositories"
+            case "database":
+                let destVC = segue.destination as! databaseTableViewController
+                destVC.navigationItem.title = "DataBase"
             default:
-                destVC.searchMode = sMode.all
+                let destVC = segue.destination
+                destVC.navigationItem.title = "default"
         }
     }
 
