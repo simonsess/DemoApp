@@ -15,13 +15,15 @@ enum RepositoryError: Error {
 
 struct repoRequest {
     let searchString: String
-    let url: URL
+    var url: URL
     var searchMode: sMode
     let orgUrlString = "https://api.github.com/orgs/%@/repos"
     let allRepoUrlString = "https://api.github.com/search/repositories?q=%@"
     
-    func isOrgSearch() -> Bool {
-        return searchMode == sMode.org
+    var isOrgSearch: Bool {
+        get {
+            return searchMode == sMode.org
+        }
     }
     
     init(searchPattern: String, search: sMode){
@@ -41,7 +43,7 @@ struct repoRequest {
             }
             do {
                 let decoder = JSONDecoder()
-                if(isOrgSearch()) {
+                if(isOrgSearch) {
                     let repoResponse = try decoder.decode([repository].self, from:jsonData)
                     completion(.success(repoResponse))
                 } else {
