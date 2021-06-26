@@ -7,11 +7,27 @@
 
 import UIKit
 
+enum sMode {
+    case all
+    case org
+}
+
 class TableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    let defaultOrg = "apple"
+    var defaultSearch: String
+    var searchMode: sMode = sMode.org {
+        didSet {
+            defaultSearch = searchMode == sMode.org ? "apple" : "graphsearch"
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        searchMode = sMode.org
+        defaultSearch = "apple"
+        super.init(coder: coder)
+    }
     
     var dataSource = [repository]() {
         didSet {
@@ -24,7 +40,7 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        searchBar.placeholder = defaultOrg
+        searchBar.placeholder = defaultSearch
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,7 +63,7 @@ class TableViewController: UITableViewController {
         
         cell.titleLabel?.text = repo.fullName
         cell.descLabel?.text = repo.description
-        cell.modifyLabel?.text = repo.updated
+        cell.modifyLabel?.text = repo.dateModified
         cell.starsLabel?.text = String(repo.stars)
         guard let avatarUrl = repo.owner?.avatarUrl else { return cell }
             cell.avatarImageView?.downloaded(from:avatarUrl)
@@ -72,11 +88,11 @@ class TableViewController: UITableViewController {
 
 extension TableViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard var orgName = searchBar.text else {return}
-        if (orgName.isEmpty) {
-            orgName = defaultOrg
+        guard var searchText = searchBar.text else {return}
+        if (searchText.isEmpty) {
+            searchText = defaultSearch
         }
-        let repoRequest = repoRequest(organisation: orgName)
+        let repoRequest = repoRequest(searchPattern: searchText, search: self.searchMode)
         self.searchBar.resignFirstResponder()
         repoRequest.getRepos {[weak self] result in
             switch result {

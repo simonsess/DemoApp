@@ -15,6 +15,19 @@ struct repository: Decodable {
     var owner: owner?
     var htmlUrl: String?
     
+    var dateModified: String {
+        get {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            if let date = dateFormatter.date(from: self.updated ?? ""){
+                dateFormatter.dateFormat = "dd-MM-yyyy"
+                return dateFormatter.string(from: date)
+            } else {
+                return "N/A"
+            }
+        }
+    }
+    
     enum CodingKeys: String, CodingKey {
         case fullName = "full_name"
         case description = "description"
@@ -30,5 +43,13 @@ struct owner : Decodable {
     
     enum CodingKeys: String, CodingKey {
         case avatarUrl = "avatar_url"
+    }
+}
+
+struct result: Decodable {
+    var repositories: [repository]
+    
+    enum CodingKeys: String, CodingKey {
+        case repositories = "items"
     }
 }

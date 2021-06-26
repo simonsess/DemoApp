@@ -14,15 +14,23 @@ enum RepositoryError: Error {
 }
 
 struct repoRequest {
-    let organisation: String
+    let searchString: String
     let url: URL
+    var searchMode: sMode
+    let orgUrlString = "https://api.github.com/orgs/%@/repos"
+    let allRepoUrlString = "https://api.github.com/search/repositories?q=%@"
     
-    init(organisation: String){
-        self.organisation = organisation
-        let resourceUrlString = "https://api.github.com/orgs/\(organisation)/repos"
+    func isOrgSearch() -> Bool {
+        return searchMode == sMode.org
+    }
+    
+    init(searchPattern: String, search: sMode){
+        self.searchString = searchPattern
+        self.searchMode = search
+        let formatUrl = searchMode == sMode.org ? orgUrlString : allRepoUrlString
+        let resourceUrlString = String(format: formatUrl, self.searchString)
         guard let url = URL(string: resourceUrlString) else {fatalError()}
-        
-        self.url = url
+            self.url = url
     }
     
     func getRepos (completion: @escaping(Result<[repository], RepositoryError>) -> Void ) {
@@ -33,8 +41,13 @@ struct repoRequest {
             }
             do {
                 let decoder = JSONDecoder()
-                let repoResponse = try decoder.decode([repository].self, from:jsonData)
-                completion(.success(repoResponse))
+                if(isOrgSearch()) {
+                    let repoResponse = try decoder.decode([repository].self, from:jsonData)
+                    completion(.success(repoResponse))
+                } else {
+                    let repoResponse = try decoder.decode(result.self, from: jsonData)
+                    completion(.success(repoResponse.repositories))
+                }
             }catch{
                 print(error)
                 completion(.failure(.cannotProcesData))
