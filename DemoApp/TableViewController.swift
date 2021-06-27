@@ -138,15 +138,19 @@ extension TableViewController : UISearchBarDelegate {
         if (searchText.isEmpty) {
             searchText = defaultSearch
         }
-        //TODO: encapsulate data provider into extra service
+
         if (isOffline){
-            //search db
             if let data = UserDefaults.standard.value(forKey: searchText) as? Data{
                 let decoder = JSONDecoder()
 
                 if let objectsDecoded = try? decoder.decode(Array.self, from: data) as [repository] {
                     dataSource = objectsDecoded
                 }
+            } else {
+                //no entry found
+                let owner = owner(avatarUrl: "no image")
+                let repo = repository(fullName: String(format: "No Entry for \"%@\"", searchText), description: "", updated: "", stars: 0, owner: owner, htmlUrl: "")
+                dataSource = [repo]
             }
             
         } else {

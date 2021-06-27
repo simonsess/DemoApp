@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class imageProvider {
-    //TODO encapsulate to call online and offline images
     static var images: [String: UIImage] = [:]
     static func addData(key: String, image: UIImage) {
         
@@ -37,6 +36,13 @@ class imageProvider {
                 
         images[key] = value
     }
+    static func setImage(imageView: UIImageView, url: String, offline: Bool) {
+        if (offline) {
+            imageView.image = imageProvider.get(key: url)
+        } else {
+            imageView.downloaded(from:url)
+        }
+    }
     
     static func save() {
         guard let data = try? NSKeyedArchiver.archivedData(withRootObject: images, requiringSecureCoding: false) as Data
@@ -47,7 +53,6 @@ class imageProvider {
     
     static func load() {
         if let data = UserDefaults.standard.value(forKey: "images") as? Data{
-//            guard let images = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [String: UIImage], from: data) as! [String: UIImage]
             guard let images = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: UIImage]
             else { fatalError("Can't load images.") }
             
